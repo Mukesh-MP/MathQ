@@ -6,7 +6,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Login")),
         body: Container(
             width: double.maxFinite,
             height: double.maxFinite,
@@ -15,9 +14,9 @@ class LoginScreen extends StatelessWidget {
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
-                  Color.fromARGB(255, 179, 45, 250),
-                  Color.fromARGB(255, 214, 203, 225),
-                  Color.fromARGB(255, 195, 140, 251)
+                  Color.fromARGB(255, 50, 1, 48),
+                  Color.fromARGB(255, 98, 7, 118),
+                  Color.fromARGB(255, 135, 19, 158)
                 ])),
             child: const Center(
                 child: Column(
@@ -25,8 +24,36 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                   Text(
-                    "Welcome to login screen",
-                    style: TextStyle(fontSize: 30),
+                    "Sign In",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.purple,
+                        hintText: "Username",
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20)))),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                        hintText: "Password",
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        filled: true,
+                        fillColor: Colors.purple),
+                  ),
+                  Text(
+                    "SignUp",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
                   )
                 ]))));
   }
