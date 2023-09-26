@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:mathq/config/constants.dart';
-import 'package:mathq/login/login_screen.dart';
+import 'package:mathq/login/screen/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
