@@ -129,7 +129,7 @@ class LoginScreen extends StatelessWidget {
                             }
                           },
                           child: const Text(
-                            "Sign In",
+                            "Login",
                             style: TextStyle(
                                 fontSize: 15,
                                 color: Color.fromARGB(226, 255, 255, 255),
@@ -157,7 +157,7 @@ class LoginScreen extends StatelessWidget {
                         Get.to(() => const SignUpScreen());
                       },
                       child: const Text(
-                        "Sign Up",
+                        "Register",
                         style: TextStyle(
                             fontSize: 15,
                             color: Color.fromARGB(176, 64, 195, 255),

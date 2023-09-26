@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:mathq/config/constants.dart';
+import 'package:mathq/home/home_screen.dart';
 import 'package:mathq/login/screen/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
       // Get.to(const LoginScreen());
-      Get.to(() => const LoginScreen());
+      Get.to(() => const HomeScreen());
     });
 
     return Scaffold(
