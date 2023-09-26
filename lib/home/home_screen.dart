@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
     var homeController = Get.put(HomeController());
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -22,87 +23,101 @@ class HomeScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 35.0,
-                  bottom: 18,
-                  top: 18,
-                ),
-                child: Obx(
-                  () => Text(homeController
-                      .question1[homeController.questionIndex.value]),
-                ),
-              ),
-            ],
+      body: Card(
+        color: const Color.fromARGB(255, 244, 242, 242),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .6,
-            child: Obx(
-              () => ListView.builder(
-                itemCount: homeController
-                    .answers1[homeController.questionIndex.value].length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(homeController
-                        .answers1[homeController.questionIndex.value][index]),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: index,
-                      onChanged: (value) {},
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        child: Column(
+          children: [
+            Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    homeController.subIndex();
-                  },
-                  child: const Row(
-                    children: [
-                      Icon(Icons.arrow_back_ios),
-                      Text("Previous"),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 35.0,
+                    bottom: 18,
+                    top: 18,
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                    style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.only(
-                            left: 20, right: 20, top: 10, bottom: 10))),
-                    onPressed: () {},
-                    child: const Text("Check Answer")),
-                const SizedBox(
-                  width: 20,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    homeController.addIndex();
-                  },
-                  child: const Row(
-                    children: [
-                      Text("Next"),
-                      Icon(Icons.arrow_forward_ios),
-                    ],
+                  child: Obx(
+                    () => Text(homeController
+                        .question1[homeController.questionIndex.value]),
                   ),
                 ),
               ],
             ),
-          ))
-        ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .6,
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: homeController
+                      .answers1[homeController.questionIndex.value].length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(homeController
+                          .answers1[homeController.questionIndex.value][index]),
+                      leading: Radio(
+                        value: homeController
+                                .selectedAns[homeController.questionIndex.value]
+                            [index],
+                        groupValue: 1,
+                        onChanged: (value) {
+                          homeController.radioSelection(index, value);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      homeController.subIndex();
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.arrow_back_ios),
+                        Text("Previous"),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                      style: const ButtonStyle(
+                          padding: MaterialStatePropertyAll(EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10))),
+                      onPressed: () {},
+                      child: const Text("Check Answer")),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      homeController.addIndex();
+                    },
+                    child: const Row(
+                      children: [
+                        Text("Next"),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ))
+          ],
+        ),
       ),
     );
   }
