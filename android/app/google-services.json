@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:675301500605:android:034ab5a3fb5e6227b1b9d4",
+        "android_client_info": {
+          "package_name": "com.example.mathq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCABzRQ1_QW4_k4FobxK60fJhNxAQeHYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:675301500605:android:23ff667ae216b596b1b9d4",
         "android_client_info": {
           "package_name": "com.mukesh.mathq"
