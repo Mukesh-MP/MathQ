@@ -1,23 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mathq/firebase/gobal.dart';
 import 'package:mathq/splash_screen/splash_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseApp app;
-  try {
-    if (Platform.isAndroid) {
-      app = await Firebase.initializeApp(
-          name: "MathQ_Firebase_Android",
-          options: DefaultFirebaseOptions.android);
-    }
-  } catch (e) {
-    print(e);
-  }
+  await firebaseGlobal();
 
   runApp(const MyApp());
 }

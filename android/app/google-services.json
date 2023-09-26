@@ -1,29 +1,11 @@
 {
   "project_info": {
     "project_number": "675301500605",
+    "firebase_url": "https://mathq-3bcc8-default-rtdb.firebaseio.com",
     "project_id": "mathq-3bcc8",
     "storage_bucket": "mathq-3bcc8.appspot.com"
   },
   "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:675301500605:android:034ab5a3fb5e6227b1b9d4",
-        "android_client_info": {
-          "package_name": "com.example.mathq"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBCABzRQ1_QW4_k4FobxK60fJhNxAQeHYg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:675301500605:android:23ff667ae216b596b1b9d4",

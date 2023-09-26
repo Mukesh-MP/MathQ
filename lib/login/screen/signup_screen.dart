@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mathq/login/controller/login_controller.dart';
 
 LinearGradient signupGradient = const LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color.fromARGB(210, 125, 14, 121),
-      Color.fromARGB(255, 98, 7, 118),
-      Color.fromARGB(255, 225, 130, 244),
+      Color.fromARGB(255, 245, 151, 242),
+      Color.fromARGB(255, 241, 226, 245),
+      Color.fromARGB(255, 192, 116, 207),
       Color.fromARGB(255, 227, 178, 237)
     ]);
 
@@ -15,13 +17,14 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loginController = Get.put(LoginController());
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          shadowColor: const Color.fromARGB(210, 125, 14, 121),
+          shadowColor: const Color.fromARGB(255, 234, 103, 230),
           elevation: 1,
-          backgroundColor: const Color.fromARGB(210, 125, 14, 121),
+          backgroundColor: const Color.fromARGB(255, 245, 151, 242),
         ),
         body: Container(
             width: double.maxFinite,
@@ -43,8 +46,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     width: width * .65,
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: loginController.emailController,
+                      decoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
@@ -59,7 +63,7 @@ class SignUpScreen extends StatelessWidget {
                               )),
                           contentPadding: EdgeInsets.only(left: 15),
                           filled: true,
-                          fillColor: Color.fromARGB(255, 135, 48, 151),
+                          fillColor: Colors.white,
                           hintText: "Username",
                           border: OutlineInputBorder(
                               borderRadius:
@@ -71,8 +75,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     width: width * .65,
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: loginController.passwordController,
+                      decoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
@@ -91,7 +96,7 @@ class SignUpScreen extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           filled: true,
-                          fillColor: Color.fromARGB(255, 135, 48, 151)),
+                          fillColor: Colors.white),
                     ),
                   ),
                   const SizedBox(
@@ -99,8 +104,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     width: width * .65,
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: loginController.confirmPasswordController,
+                      decoration: const InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
@@ -119,9 +125,35 @@ class SignUpScreen extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           filled: true,
-                          fillColor: Color.fromARGB(255, 135, 48, 151)),
+                          fillColor: Colors.white),
                     ),
-                  )
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: width * .65,
+                    child: ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              Color.fromARGB(255, 180, 4, 211)),
+                          elevation: MaterialStatePropertyAll(10),
+                          shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))))),
+                      onPressed: () {
+                        loginController.signUpSubmit();
+                      },
+                      child: const Text(
+                        "Submit",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
                 ]))));
   }
 }

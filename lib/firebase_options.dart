@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '675301500605',
     projectId: 'mathq-3bcc8',
     authDomain: 'mathq-3bcc8.firebaseapp.com',
+    databaseURL: 'https://mathq-3bcc8-default-rtdb.firebaseio.com',
     storageBucket: 'mathq-3bcc8.appspot.com',
     measurementId: 'G-YKY2VCSHH9',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:675301500605:android:23ff667ae216b596b1b9d4',
     messagingSenderId: '675301500605',
     projectId: 'mathq-3bcc8',
+    databaseURL: 'https://mathq-3bcc8-default-rtdb.firebaseio.com',
     storageBucket: 'mathq-3bcc8.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:675301500605:ios:ea1c9b0397ff6d6ab1b9d4',
     messagingSenderId: '675301500605',
     projectId: 'mathq-3bcc8',
+    databaseURL: 'https://mathq-3bcc8-default-rtdb.firebaseio.com',
     storageBucket: 'mathq-3bcc8.appspot.com',
     iosBundleId: 'com.example.mathq',
   );
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:675301500605:ios:abbdfbacc83951d5b1b9d4',
     messagingSenderId: '675301500605',
     projectId: 'mathq-3bcc8',
+    databaseURL: 'https://mathq-3bcc8-default-rtdb.firebaseio.com',
     storageBucket: 'mathq-3bcc8.appspot.com',
     iosBundleId: 'com.example.mathq.RunnerTests',
   );

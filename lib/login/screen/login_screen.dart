@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mathq/login/login_controller.dart';
+import 'package:mathq/login/controller/login_controller.dart';
 import 'package:mathq/login/screen/signup_screen.dart';
 
 LinearGradient loginGradient = const LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color.fromARGB(255, 50, 1, 48),
-      Color.fromARGB(255, 98, 7, 118),
+      Color.fromARGB(255, 239, 81, 234),
+      Color.fromARGB(255, 241, 226, 245),
       Color.fromARGB(255, 192, 116, 207)
     ]);
 
@@ -41,8 +41,9 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           SizedBox(
                             width: width * .65,
-                            child: const TextField(
-                              decoration: InputDecoration(
+                            child: TextField(
+                              controller: loginController.emailController,
+                              decoration: const InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(20)),
@@ -55,11 +56,11 @@ class LoginScreen extends StatelessWidget {
                                           BorderRadius.all(Radius.circular(20)),
                                       borderSide: BorderSide(
                                         color:
-                                            Color.fromARGB(143, 255, 255, 255),
+                                            Color.fromARGB(143, 199, 73, 253),
                                       )),
                                   contentPadding: EdgeInsets.only(left: 15),
                                   filled: true,
-                                  fillColor: Color.fromARGB(255, 115, 24, 132),
+                                  fillColor: Colors.white,
                                   hintText: "Username",
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
@@ -71,8 +72,9 @@ class LoginScreen extends StatelessWidget {
                           ),
                           SizedBox(
                             width: width * .65,
-                            child: const TextField(
-                              decoration: InputDecoration(
+                            child: TextField(
+                              controller: loginController.passwordController,
+                              decoration: const InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(20)),
@@ -85,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                                           BorderRadius.all(Radius.circular(20)),
                                       borderSide: BorderSide(
                                         color:
-                                            Color.fromARGB(143, 255, 255, 255),
+                                            Color.fromARGB(143, 199, 73, 253),
                                       )),
                                   contentPadding: EdgeInsets.only(left: 15),
                                   hintText: "Password",
@@ -93,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
                                   filled: true,
-                                  fillColor: Color.fromARGB(255, 115, 24, 132)),
+                                  fillColor: Colors.white),
                             ),
                           ),
                           const SizedBox(
@@ -113,7 +115,7 @@ class LoginScreen extends StatelessWidget {
                               shadowColor:
                                   MaterialStatePropertyAll(Colors.black),
                               backgroundColor: MaterialStatePropertyAll(
-                                  Color.fromARGB(255, 115, 24, 132)),
+                                  Color.fromARGB(162, 224, 83, 249)),
                               elevation: MaterialStatePropertyAll(10),
                               shape: MaterialStatePropertyAll(
                                   RoundedRectangleBorder(
@@ -122,7 +124,9 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             if (loginController.signInOptional.value == false) {
                               loginController.signInOptional.value = true;
-                            } else {}
+                            } else {
+                              loginController.login();
+                            }
                           },
                           child: const Text(
                             "Sign In",
@@ -143,7 +147,7 @@ class LoginScreen extends StatelessWidget {
                     child: ElevatedButton(
                       style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
-                              Color.fromARGB(255, 115, 24, 132)),
+                              Color.fromARGB(161, 122, 32, 138)),
                           elevation: MaterialStatePropertyAll(10),
                           shape: MaterialStatePropertyAll(
                               RoundedRectangleBorder(
