@@ -10,7 +10,8 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Get.to(const LoginScreen());
+      // Get.to(const LoginScreen());
+      Get.to(() => const LoginScreen());
     });
 
     return Scaffold(
@@ -32,7 +33,7 @@ class SplashScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
               GestureDetector(
-                onTap: () => Get.to(const LoginScreen()),
+                onTap: () => Get.to(() => const LoginScreen()),
                 child: Image.asset(
                   welcomeIcon,
                   scale: 2,

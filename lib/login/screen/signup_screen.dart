@@ -15,6 +15,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -28,10 +29,99 @@ class SignUpScreen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: signupGradient,
             ),
-            child: const Center(
+            child: Center(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: []))));
+                    children: [
+                  const Text(
+                    "SignUp",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: width * .65,
+                    child: const TextField(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(44, 255, 255, 255),
+                              )),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(143, 255, 255, 255),
+                              )),
+                          contentPadding: EdgeInsets.only(left: 15),
+                          filled: true,
+                          fillColor: Color.fromARGB(255, 135, 48, 151),
+                          hintText: "Username",
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)))),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: width * .65,
+                    child: const TextField(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(44, 255, 255, 255),
+                              )),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(143, 255, 255, 255),
+                              )),
+                          contentPadding: EdgeInsets.only(left: 15),
+                          hintText: "Password",
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          filled: true,
+                          fillColor: Color.fromARGB(255, 135, 48, 151)),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: width * .65,
+                    child: const TextField(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(44, 255, 255, 255),
+                              )),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(143, 255, 255, 255),
+                              )),
+                          contentPadding: EdgeInsets.only(left: 15),
+                          hintText: "Confirm Password",
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          filled: true,
+                          fillColor: Color.fromARGB(255, 135, 48, 151)),
+                    ),
+                  )
+                ]))));
   }
 }

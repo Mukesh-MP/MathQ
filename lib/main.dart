@@ -8,10 +8,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //FirebaseApp app;
+  FirebaseApp app;
   try {
     if (Platform.isAndroid) {
-      await Firebase.initializeApp(
+      app = await Firebase.initializeApp(
           name: "MathQ_Firebase_Android",
           options: DefaultFirebaseOptions.android);
     }

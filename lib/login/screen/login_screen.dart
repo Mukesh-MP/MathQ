@@ -135,6 +135,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   SizedBox(
                     width: width * .65,
                     child: ElevatedButton(
@@ -147,7 +150,7 @@ class LoginScreen extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))))),
                       onPressed: () {
-                        Get.to(const SignUpScreen());
+                        Get.to(() => const SignUpScreen());
                       },
                       child: const Text(
                         "Sign Up",
