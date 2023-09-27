@@ -10,6 +10,9 @@ class HomeController extends GetxController {
   RxInt questionIndex = 0.obs;
   late RxList<List> selectedAns = [[], [], []].obs;
   RxBool isloading = false.obs;
+  RxList answerListAll = [].obs;
+  List quest = [];
+  List questAll = [];
 
   // List<String> question1 = [
   //   "what is the name",
@@ -48,15 +51,15 @@ class HomeController extends GetxController {
 
   createDataBase() async {
     isloading.value = true;
-    deleteDatabase(await getDatabasesPath());
+    //  deleteDatabase(await getDatabasesPath());
     final database = openDatabase(
         join(
           await getDatabasesPath(),
-          'master.db',
+          'mast.db',
         ), onCreate: (db, version) async {
       Batch batch = db.batch();
-      batch.execute('DROP TABLE IF EXISTS answers ');
-      batch.execute('DROP TABLE IF EXISTS questions ');
+      // batch.execute('DROP TABLE IF EXISTS answers ');
+      // batch.execute('DROP TABLE IF EXISTS questions ');
       batch.execute(
           'CREATE TABLE questions (qid INTEGER PRIMARY KEY, question TEXT)');
       batch.execute(
@@ -65,10 +68,12 @@ class HomeController extends GetxController {
       //     'CREATE TABLE questions (qid INTEGER PRIMARY KEY, question TEXT)');
       // await db.execute(
       //     'CREATE TABLE answers (answerid INTEGER PRIMARY KEY, answertext TEXT,qid INTEGER, correct TEXT)');
-      // CustomLog.customprint("tablecreated.....");
+
       List<dynamic> result = await batch.commit();
       CustomLog.customprint(result.toString());
-    }, version: 2);
+      final tables = db.rawQuery('SELECT * FROM sqlite_master ORDER BY name;');
+      CustomLog.customprint(tables.toString());
+    }, version: 4);
 
     CustomLog.customprint(database.toString());
 
@@ -77,10 +82,6 @@ class HomeController extends GetxController {
       // Get a reference to the database.
       final db = await database;
 
-      // Insert the Dog into the correct table. You might also specify the
-      // `conflictAlgorithm` to use in case the same dog is inserted twice.
-      //
-      // In this case, replace any previous data.
       try {
         await db.insert(
           'questions',
@@ -93,7 +94,6 @@ class HomeController extends GetxController {
       }
     }
 
-    // Create a Dog and add it to the dogs table
     var quesion1 = const Questions(
       qid: 1,
       question: 'Which of the following values is NOT equal to 34(58+9)?',
@@ -111,15 +111,12 @@ class HomeController extends GetxController {
       // isloading.value = false;
     }
 
-    // A method that retrieves all the dogs from the dogs table.
     Future<List<Questions>> retrieveQuestions() async {
       // Get a reference to the database.
       final db = await database;
 
-      // Query the table for all The Dogs.
       final List<Map<String, dynamic>> maps = await db.query('questions');
 
-      // Convert the List<Map<String, dynamic> into a List<Dog>.
       return List.generate(maps.length, (i) {
         return Questions(
           qid: maps[i]['qid'],
@@ -135,10 +132,6 @@ class HomeController extends GetxController {
       // Get a reference to the database.
       final db = await database;
 
-      // Insert the Dog into the correct table. You might also specify the
-      // `conflictAlgorithm` to use in case the same dog is inserted twice.
-      //
-      // In this case, replace any previous data.
       try {
         db.insert(
           'answers',
@@ -186,10 +179,8 @@ class HomeController extends GetxController {
       // Get a reference to the database.
       final db = await database;
 
-      // Query the table for all The Dogs.
       final List<Map<String, dynamic>> maps = await db.query('answers');
 
-      // Convert the List<Map<String, dynamic> into a List<Dog>.
       return List.generate(maps.length, (i) {
         return Answers(
           answerid: maps[i]['answerid'],
@@ -202,7 +193,20 @@ class HomeController extends GetxController {
 
     answersList = await retrieveAnswers();
     CustomLog.customprint(answersList.toString());
+
+    answerListAll.value = await answerLoop();
+    CustomLog.customprint(answerListAll.toString());
     isloading.value = false;
+  }
+
+  Future<List> answerLoop() async {
+    for (var k = 0; k < questionsList.length; k++) {
+      for (var i = 0; i < answersList.length; i++) {
+        quest = answersList.where((element) => element.qid == k + 1).toList();
+      }
+      questAll.insert(k, quest);
+    }
+    return questAll;
   }
 }
 
@@ -215,7 +219,6 @@ class Questions {
     required this.question,
   });
 
-  // Convert a Dog into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
@@ -225,7 +228,6 @@ class Questions {
   }
 
   // Implement toString to make it easier to see information about
-  // each dog when using the print statement.
   @override
   String toString() {
     return 'Questions{qid: $qid, question: $question}';
@@ -244,7 +246,6 @@ class Answers {
       required this.qid,
       this.correct = 'N'});
 
-  // Convert a Dog into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
@@ -256,7 +257,6 @@ class Answers {
   }
 
   // Implement toString to make it easier to see information about
-  // each dog when using the print statement.
   @override
   String toString() {
     return 'Questions{answerid: $answerid, answertext: $answertext,qid: $qid, correct: $correct}';

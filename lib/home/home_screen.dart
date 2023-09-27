@@ -9,26 +9,24 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var homeController = Get.put(HomeController());
 
-    return Obx(
-      () => homeController.isloading.value
-          ? const CircularProgressIndicator(
-              color: Colors.purple,
-            )
-          : Scaffold(
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                automaticallyImplyLeading: false,
-                iconTheme: const IconThemeData(color: Colors.black),
-                toolbarHeight: 80,
-                title: const Center(
-                  child: Text(
-                    "MathQ Question",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-                backgroundColor: Colors.white,
-              ),
-              body: Card(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        iconTheme: const IconThemeData(color: Colors.black),
+        toolbarHeight: 80,
+        title: const Center(
+          child: Text(
+            "MathQ Question",
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        backgroundColor: Colors.white,
+      ),
+      body: Obx(
+        () => homeController.isloading.value
+            ? const Center(child: CircularProgressIndicator())
+            : Card(
                 color: const Color.fromARGB(255, 244, 242, 242),
                 elevation: 0,
                 shape: const RoundedRectangleBorder(
@@ -43,40 +41,40 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                            left: 35.0,
+                            left: 30.0,
                             bottom: 18,
                             top: 18,
                           ),
-                          child: Obx(
-                            () => Text(homeController
-                                .questionsList[
-                                    homeController.questionIndex.value]
-                                .question),
-                          ),
+                          child: Text(
+                              '${(homeController.questionIndex.value + 1).toString()}.'),
                         ),
+                        const SizedBox(
+                          width: 3,
+                        ),
+                        Text(homeController
+                            .questionsList[homeController.questionIndex.value]
+                            .question),
                       ],
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .6,
-                      child: Obx(
-                        () => ListView.builder(
-                          itemCount: homeController
-                              .answers1[homeController.questionIndex.value]
-                              .length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(homeController.answers1[
-                                  homeController.questionIndex.value][index]),
-                              leading: Radio(
-                                value: 0,
-                                groupValue: 1,
-                                onChanged: (value) {
-                                  homeController.radioSelection(index, value);
-                                },
-                              ),
-                            );
-                          },
-                        ),
+                      child: ListView.builder(
+                        itemCount: homeController.answerListAll.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(homeController
+                                .answerListAll[
+                                    homeController.questionIndex.value][index]
+                                .answertext),
+                            leading: Radio(
+                              value: 0,
+                              groupValue: 1,
+                              onChanged: (value) {
+                                homeController.radioSelection(index, value);
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ),
                     Expanded(
@@ -129,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
+      ),
     );
   }
 }
