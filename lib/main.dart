@@ -5,6 +5,7 @@ import 'package:mathq/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await firebaseGlobal();
 
   runApp(const MyApp());
