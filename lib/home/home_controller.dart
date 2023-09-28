@@ -1,3 +1,5 @@
+
+
 import 'package:get/get.dart';
 import 'package:mathq/widgets/toast.dart';
 import 'package:sqflite/sqflite.dart';
@@ -5,23 +7,17 @@ import 'package:mathq/widgets/log.dart';
 import 'package:path/path.dart';
 
 class HomeController extends GetxController {
+  
   List<Questions> questionsList = [];
   List<Answers> answersList = [];
   RxInt questionIndex = 0.obs;
-  late RxList<List> selectedAns = [[], [], []].obs;
-  RxBool isloading = false.obs;
-  RxList answerListAll = [].obs;
-  List quest = [];
-  List questAll = [];
 
-  // List<String> question1 = [
-  //   "what is the name",
-  //   "Where is the location of WorldCup Cricet?"
-  // ];
-  // List<List<String>> answers1 = [
-  //   ["what", "is", "the", "name"],
-  //   ["india", "america"]
-  // ];
+  RxBool isloading = false.obs;
+
+  RxList<RxList<Answers>> answerListAll = [[Answers(answerid: -1, answertext: "", qid: -1,userselected: "".obs)].obs].obs;
+  RxList<Answers> quest = [Answers(answerid: -1, answertext: "", qid: -1,userselected: "".obs)].obs;
+  RxList<RxList<Answers>> questAll = [[Answers(answerid: -1, answertext: "", qid: -1,userselected: "".obs)].obs].obs;
+  
 
   @override
   void onInit() {
@@ -45,15 +41,30 @@ class HomeController extends GetxController {
     }
   }
 
-  radioSelection(index) {
-    answerListAll[questionIndex.value][index].userselected = "Y";
-    for (var i = 0; i < answerListAll[questionIndex.value].length; i++) {
-      if (i != index) {
-        answerListAll[questionIndex.value][i].userselected = "N";
-      }
+  // radioSelection(index) {
+  //   answerListAll[questionIndex.value][index].userselected.value = "Y";
+  //   for (var i = 0; i < answerListAll[questionIndex.value].length; i++) {
+  //     if (i != index) {
+  //       answerListAll[questionIndex.value][i].userselected.value = "N";
+  //     }
+  //   }
+  // }
+
+  radioSelection(questionIndex, answerIndex) {
+  // Set the selected answer to "Y" and others to "N" for the specified question and answer
+  for (var i = 0; i < answerListAll[questionIndex].length; i++) {
+    if (i == answerIndex) {
+      answerListAll[questionIndex][i].userselected.value = "Y";
+    } else {
+      answerListAll[questionIndex][i].userselected.value = "N";
     }
-    
   }
+}
+
+
+
+
+
   void _onUpgrade(Database db, int oldVersion, int newVersion) {
     if (oldVersion < newVersion) {
       db.execute("ALTER TABLE answers ADD COLUMN userselected TEXT;");
@@ -157,22 +168,22 @@ class HomeController extends GetxController {
     }
 
     var answer1 =
-        const Answers(answerid: 1, answertext: "0.06", qid: 2, correct: 'Y',userselected: 'N');
+         Answers(answerid: 1, answertext: "0.06", qid: 2, correct: 'Y',userselected: 'N'.obs);
     var answer2 =
-        const Answers(answerid: 2, answertext: "0.6", qid: 2, correct: 'N',userselected: 'N');
+         Answers(answerid: 2, answertext: "0.6", qid: 2, correct: 'N',userselected: 'N'.obs);
     var answer3 =
-        const Answers(answerid: 3, answertext: "0.006", qid: 2, correct: 'N',userselected: 'N');
+         Answers(answerid: 3, answertext: "0.006", qid: 2, correct: 'N',userselected: 'N'.obs);
     var answer4 =
-        const Answers(answerid: 4, answertext: "0.0006", qid: 2, correct: 'N',userselected: 'N');
+         Answers(answerid: 4, answertext: "0.0006", qid: 2, correct: 'N',userselected: 'N'.obs);
 
     var answer5 =
-        const Answers(answerid: 5, answertext: "34 * 67", qid: 1, correct: 'N',userselected: 'N');
-    var answer6 = const Answers(
-        answerid: 6, answertext: "58(34+9)", qid: 1, correct: 'Y',userselected: 'N');
-    var answer7 = const Answers(
-        answerid: 7, answertext: "34 * 58 + 34 * 9", qid: 1, correct: 'N',userselected: 'N');
-    var answer8 = const Answers(
-        answerid: 8, answertext: "1,972 + 306", qid: 1, correct: 'N',userselected: 'N');
+         Answers(answerid: 5, answertext: "34 * 67", qid: 1, correct: 'N',userselected: 'N'.obs);
+    var answer6 =  Answers(
+        answerid: 6, answertext: "58(34+9)", qid: 1, correct: 'Y',userselected: 'N'.obs);
+    var answer7 =  Answers(
+        answerid: 7, answertext: "34 * 58 + 34 * 9", qid: 1, correct: 'N',userselected: 'N'.obs);
+    var answer8 =  Answers(
+        answerid: 8, answertext: "1,972 + 306", qid: 1, correct: 'N',userselected: 'N'.obs);
     try {
       await insertAnswers(answer1);
       await insertAnswers(answer2);
@@ -194,30 +205,35 @@ class HomeController extends GetxController {
       final List<Map<String, dynamic>> maps = await db.query('answers');
 
       return List.generate(maps.length, (i) {
+        RxString userSelected = RxString(maps[i]['userselected']);
         return Answers(
           answerid: maps[i]['answerid'],
           answertext: maps[i]['answertext'],
           qid: maps[i]['qid'],
           correct: maps[i]['correct'],
-          userselected: maps[i]['userselected'],
+          userselected: userSelected,
         );
       });
     }
 
     answersList = await retrieveAnswers();
     CustomLog.customprint(answersList.toString());
-
+    questAll.clear();
     answerListAll.value = await answerLoop();
     CustomLog.customprint(answerListAll.toString());
     isloading.value = false;
   }
 
-  Future<List> answerLoop() async {
+  Future<RxList<RxList<Answers>>> answerLoop() async {
+  
+
+
     for (var k = 0; k < questionsList.length; k++) {
       for (var i = 0; i < answersList.length; i++) {
-        quest = answersList.where((element) => element.qid == k + 1).toList();
+        quest.value = answersList.where((element) => element.qid == (k + 1)).toList();
       }
-      questAll.insert(k, quest);
+      
+      questAll.add(quest);
     }
     return questAll;
   }
@@ -252,14 +268,14 @@ class Answers {
   final String answertext;
   final int qid;
   final String correct;
-  final String userselected;
+  RxString userselected  = 'N'.obs;
 
-  const Answers(
+   Answers(
       {required this.answerid,
       required this.answertext,
       required this.qid,
       this.correct = 'N',
-      this.userselected = 'N',});
+      required this.userselected,});
 
   // columns in the database.
   Map<String, dynamic> toMap() {
@@ -268,7 +284,7 @@ class Answers {
       'answertext': answertext,
       'qid': qid,
       'correct': correct,
-      'userselected':userselected
+      'userselected':userselected.value
 
     };
   }
