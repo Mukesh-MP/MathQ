@@ -18,10 +18,10 @@ class HomeController extends GetxController {
   //   "what is the name",
   //   "Where is the location of WorldCup Cricet?"
   // ];
-  List<List<String>> answers1 = [
-    ["what", "is", "the", "name"],
-    ["india", "america"]
-  ];
+  // List<List<String>> answers1 = [
+  //   ["what", "is", "the", "name"],
+  //   ["india", "america"]
+  // ];
 
   @override
   void onInit() {
@@ -45,10 +45,20 @@ class HomeController extends GetxController {
     }
   }
 
-  radioSelection(index, value) {
-    selectedAns[questionIndex.value][index] = value;
+  radioSelection(index) {
+    answerListAll[questionIndex.value][index].userselected = "Y";
+    for (var i = 0; i < answerListAll[questionIndex.value].length; i++) {
+      if (i != index) {
+        answerListAll[questionIndex.value][i].userselected = "N";
+      }
+    }
+    
   }
-
+  void _onUpgrade(Database db, int oldVersion, int newVersion) {
+    if (oldVersion < newVersion) {
+      db.execute("ALTER TABLE answers ADD COLUMN userselected TEXT;");
+    }
+  }
   createDataBase() async {
     isloading.value = true;
     //  deleteDatabase(await getDatabasesPath());
@@ -68,20 +78,22 @@ class HomeController extends GetxController {
       //     'CREATE TABLE questions (qid INTEGER PRIMARY KEY, question TEXT)');
       // await db.execute(
       //     'CREATE TABLE answers (answerid INTEGER PRIMARY KEY, answertext TEXT,qid INTEGER, correct TEXT)');
-
+      
       List<dynamic> result = await batch.commit();
       CustomLog.customprint(result.toString());
       final tables = db.rawQuery('SELECT * FROM sqlite_master ORDER BY name;');
       CustomLog.customprint(tables.toString());
-    }, version: 4);
-
+    },onUpgrade: _onUpgrade,
+     version: 5);
+    
     CustomLog.customprint(database.toString());
 
     // Define a function that inserts dogs into the database
     Future<void> insertQuestions(Questions questionsall) async {
       // Get a reference to the database.
       final db = await database;
-
+      
+      
       try {
         await db.insert(
           'questions',
@@ -145,22 +157,22 @@ class HomeController extends GetxController {
     }
 
     var answer1 =
-        const Answers(answerid: 1, answertext: "0.06", qid: 2, correct: 'Y');
+        const Answers(answerid: 1, answertext: "0.06", qid: 2, correct: 'Y',userselected: 'N');
     var answer2 =
-        const Answers(answerid: 2, answertext: "0.6", qid: 2, correct: 'N');
+        const Answers(answerid: 2, answertext: "0.6", qid: 2, correct: 'N',userselected: 'N');
     var answer3 =
-        const Answers(answerid: 3, answertext: "0.006", qid: 2, correct: 'N');
+        const Answers(answerid: 3, answertext: "0.006", qid: 2, correct: 'N',userselected: 'N');
     var answer4 =
-        const Answers(answerid: 4, answertext: "0.0006", qid: 2, correct: 'N');
+        const Answers(answerid: 4, answertext: "0.0006", qid: 2, correct: 'N',userselected: 'N');
 
     var answer5 =
-        const Answers(answerid: 5, answertext: "34 * 67", qid: 1, correct: 'N');
+        const Answers(answerid: 5, answertext: "34 * 67", qid: 1, correct: 'N',userselected: 'N');
     var answer6 = const Answers(
-        answerid: 6, answertext: "58(34+9)", qid: 1, correct: 'Y');
+        answerid: 6, answertext: "58(34+9)", qid: 1, correct: 'Y',userselected: 'N');
     var answer7 = const Answers(
-        answerid: 7, answertext: "34 * 58 + 34 * 9", qid: 1, correct: 'N');
+        answerid: 7, answertext: "34 * 58 + 34 * 9", qid: 1, correct: 'N',userselected: 'N');
     var answer8 = const Answers(
-        answerid: 8, answertext: "1,972 + 306", qid: 1, correct: 'N');
+        answerid: 8, answertext: "1,972 + 306", qid: 1, correct: 'N',userselected: 'N');
     try {
       await insertAnswers(answer1);
       await insertAnswers(answer2);
@@ -187,6 +199,7 @@ class HomeController extends GetxController {
           answertext: maps[i]['answertext'],
           qid: maps[i]['qid'],
           correct: maps[i]['correct'],
+          userselected: maps[i]['userselected'],
         );
       });
     }
@@ -239,12 +252,14 @@ class Answers {
   final String answertext;
   final int qid;
   final String correct;
+  final String userselected;
 
   const Answers(
       {required this.answerid,
       required this.answertext,
       required this.qid,
-      this.correct = 'N'});
+      this.correct = 'N',
+      this.userselected = 'N',});
 
   // columns in the database.
   Map<String, dynamic> toMap() {
@@ -252,13 +267,15 @@ class Answers {
       'answerid': answerid,
       'answertext': answertext,
       'qid': qid,
-      'correct': correct
+      'correct': correct,
+      'userselected':userselected
+
     };
   }
 
   // Implement toString to make it easier to see information about
   @override
   String toString() {
-    return 'Questions{answerid: $answerid, answertext: $answertext,qid: $qid, correct: $correct}';
+    return 'Questions{answerid: $answerid, answertext: $answertext,qid: $qid, correct: $correct,userselected : $userselected}';
   }
 }

@@ -5,6 +5,7 @@ import 'package:mathq/home/home_controller.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     var homeController = Get.put(HomeController());
@@ -59,19 +60,30 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .6,
                       child: ListView.builder(
-                        itemCount: homeController.answerListAll.length,
+                        itemCount: homeController.answerListAll[homeController.questionIndex.value].length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(homeController
-                                .answerListAll[
-                                    homeController.questionIndex.value][index]
-                                .answertext),
-                            leading: Radio(
-                              value: 0,
-                              groupValue: 1,
-                              onChanged: (value) {
-                                homeController.radioSelection(index, value);
-                              },
+                          return GestureDetector(onTap: () {
+                            homeController.radioSelection(index);
+                          },
+                            child: ListTile(
+                              title: Card(color: homeController.answerListAll[homeController.questionIndex.value][index].userselected == "Y" ? const Color.fromARGB(255, 133, 29, 251)  : Colors.blueGrey.shade100,
+                                margin: const EdgeInsets.only(left: 10,right: 10),
+                                shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15,top: 8,bottom: 8,right: 5),
+                                      child: Text(index == 0 ? "A :" : index == 1 ? "B :" : index == 2 ? "C :" : index == 3 ? "D :" :  "E :"),
+                                    ),
+                                    const SizedBox(width: 10,),
+                                    Text(homeController
+                                        .answerListAll[
+                                            homeController.questionIndex.value][index]
+                                        .answertext),
+                                  ],
+                                ),
+                              ),
+                              
                             ),
                           );
                         },
