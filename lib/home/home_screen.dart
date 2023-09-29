@@ -38,24 +38,28 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                             left: 30.0,
                             bottom: 18,
-                            top: 18,
+                            top: 15
                           ),
-                          child: Text(
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
                               '${(homeController.questionIndex.value + 1).toString()}.'),
-                        ),
-                        const SizedBox(
-                          width: 3,
-                        ),
-                        Text(homeController
-                            .questionsList[homeController.questionIndex.value]
-                            .question),
-                      ],
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          SizedBox(width: MediaQuery.of(context).size.width * .8,
+                            child: Text(homeController
+                                .questionsList[homeController.questionIndex.value]
+                                .question,softWrap: true,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .6,
@@ -68,7 +72,9 @@ class HomeScreen extends StatelessWidget {
                              // homeController.refresh();
                             },
                               child: ListTile(
-                                title: Obx(() =>  Card(color: homeController.answerListAll[homeController.questionIndex.value][index].userselected.value == "Y" ? Color.fromARGB(255, 249, 240, 58)  : Colors.blueGrey.shade100,
+                                title: Obx(() =>  Card(color: homeController.colorCheck(index),
+                                
+                                
                                     margin: const EdgeInsets.only(left: 10,right: 10),
                                     shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(15)),
                                     child: Row(
@@ -121,7 +127,9 @@ class HomeScreen extends StatelessWidget {
                                           right: 20,
                                           top: 10,
                                           bottom: 10))),
-                              onPressed: () {},
+                              onPressed: () {
+                                homeController.checkAnswer();
+                              },
                               child: const Text("Check Answer")),
                           const SizedBox(
                             width: 20,
