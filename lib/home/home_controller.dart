@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mathq/widgets/error_widget.dart';
 import 'package:mathq/widgets/toast.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:mathq/widgets/log.dart';
@@ -194,7 +195,7 @@ class HomeController extends GetxController {
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
       } catch (e) {
-        showToast(msg: "Question Fetch Error");
+        Get.to(() => ErrorWidgetMathQ(errorMsg: "Question Insert Error"));
         isloading.value = false;
       }
     }
@@ -244,8 +245,7 @@ class HomeController extends GetxController {
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
       } catch (e) {
-        showToast(msg: "answer fetching failed");
-        //  isloading.value = false;
+        Get.to(() => ErrorWidgetMathQ(errorMsg: "answer insert failed"));
       }
     }
 
