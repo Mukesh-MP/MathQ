@@ -6,6 +6,7 @@ showToast(
     Color backgroundColor = Colors.red,
     Color textColor = Colors.black}) {
   Get.snackbar(
+    animationDuration: Duration(milliseconds: 100),
     "",
     "",
     // maxWidth: 250,

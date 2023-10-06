@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mathq/config/shared_preferences.dart';
 import 'package:mathq/widgets/error_widget.dart';
 import 'package:mathq/widgets/toast.dart';
 import 'package:sqflite/sqflite.dart';
@@ -7,6 +8,8 @@ import 'package:mathq/widgets/log.dart';
 import 'package:path/path.dart';
 
 class HomeController extends GetxController {
+  bool intialValue = true;
+
   List<Questions> questionsList = [];
   List<Answers> answersList = [];
   RxInt questionIndex = 0.obs;
@@ -70,6 +73,19 @@ class HomeController extends GetxController {
     }
   }
 
+  validationNext(questionIndex) {
+    var contain = answerListAll[questionIndex]
+        .where((element) => element.userselected == 'Y');
+    if (contain.isEmpty) {
+      showToast(
+          msg: "Please select an answer",
+          backgroundColor: const Color.fromARGB(255, 2, 34, 61),
+          textColor: Colors.white);
+    } else {
+      checkAnswer();
+    }
+  }
+
   checkAnswer() {
     var list1 = answerListAll[questionIndex.value];
 
@@ -79,6 +95,12 @@ class HomeController extends GetxController {
     if (correctIndex == selectedIndex) {
       questionsList[questionIndex.value].checked.value = 1;
       showToast(msg: "Correct Answer", backgroundColor: Colors.green.shade500);
+      Future.delayed(
+        Duration(seconds: 2),
+        () {
+          addIndex();
+        },
+      );
     } else {
       questionsList[questionIndex.value].checked.value = 1;
       showToast(msg: "Incorrect Answer", backgroundColor: Colors.red.shade500);
@@ -112,6 +134,7 @@ class HomeController extends GetxController {
   }
 
   createDataBase() async {
+    intialValue = await SecureStorage().initialValue;
     isloading.value = true;
     //  deleteDatabase(await getDatabasesPath());
     final database = openDatabase(
@@ -219,16 +242,17 @@ class HomeController extends GetxController {
         question:
             'Priya had 16 Red Balls, 2 Green Balls, 9  Blue Balls, and 1 Multicolor Ball. If He Lost 9 Red Balls, 1 Green Ball, and 3 Blue Balls. How Many Balls would be Left?',
         checked: 0.obs);
-
-    try {
-      await insertQuestions(quesion1);
-      await insertQuestions(quesion2);
-      await insertQuestions(quesion3);
-      await insertQuestions(quesion4);
-      await insertQuestions(quesion5);
-    } catch (e) {
-      showToast(msg: "Question fetching failed");
-      // isloading.value = false;
+    if (intialValue) {
+      try {
+        await insertQuestions(quesion1);
+        await insertQuestions(quesion2);
+        await insertQuestions(quesion3);
+        await insertQuestions(quesion4);
+        await insertQuestions(quesion5);
+      } catch (e) {
+        showToast(msg: "Question fetching failed");
+        // isloading.value = false;
+      }
     }
 
     questionsList = await retrieveQuestions();
@@ -373,33 +397,33 @@ class HomeController extends GetxController {
         qid: 5,
         correct: 'N',
         userselected: 'N'.obs);
-
-    try {
-      await insertAnswers(answer1);
-      await insertAnswers(answer2);
-      await insertAnswers(answer3);
-      await insertAnswers(answer4);
-      await insertAnswers(answer5);
-      await insertAnswers(answer6);
-      await insertAnswers(answer7);
-      await insertAnswers(answer8);
-      await insertAnswers(answer9);
-      await insertAnswers(answer10);
-      await insertAnswers(answer11);
-      await insertAnswers(answer12);
-      await insertAnswers(answer13);
-      await insertAnswers(answer14);
-      await insertAnswers(answer15);
-      await insertAnswers(answer16);
-      await insertAnswers(answer17);
-      await insertAnswers(answer18);
-      await insertAnswers(answer19);
-      await insertAnswers(answer20);
-    } catch (e) {
-      showToast(msg: "Answer fetch error");
-      // isloading.value = false;
+    if (intialValue) {
+      try {
+        await insertAnswers(answer1);
+        await insertAnswers(answer2);
+        await insertAnswers(answer3);
+        await insertAnswers(answer4);
+        await insertAnswers(answer5);
+        await insertAnswers(answer6);
+        await insertAnswers(answer7);
+        await insertAnswers(answer8);
+        await insertAnswers(answer9);
+        await insertAnswers(answer10);
+        await insertAnswers(answer11);
+        await insertAnswers(answer12);
+        await insertAnswers(answer13);
+        await insertAnswers(answer14);
+        await insertAnswers(answer15);
+        await insertAnswers(answer16);
+        await insertAnswers(answer17);
+        await insertAnswers(answer18);
+        await insertAnswers(answer19);
+        await insertAnswers(answer20);
+      } catch (e) {
+        showToast(msg: "Answer fetch error");
+        // isloading.value = false;
+      }
     }
-
     Future<List<Answers>> retrieveAnswers() async {
       // Get a reference to the database.
       final db = await database;
@@ -424,6 +448,7 @@ class HomeController extends GetxController {
     answerListAll.value = await answerLoop();
     CustomLog.customprint(answerListAll.toString());
     isloading.value = false;
+    SecureStorage().initialValue = false;
   }
 
   Future<RxList<RxList<Answers>>> answerLoop() async {
