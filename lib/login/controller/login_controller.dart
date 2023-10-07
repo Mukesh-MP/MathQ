@@ -124,4 +124,6 @@ class LoginController extends GetxController {
       }
     }
   }
+
+  verifyPhoneNumber() {}
 }
